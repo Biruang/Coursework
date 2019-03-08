@@ -10,13 +10,16 @@ namespace Coursework.Models
 		public string Name { get; set; }
 		public string Description { get; set; }
 		public bool Completed { get; set; }
+		public DateTime CreationTime { get; set; }
 
 		public int? PurpouseId { get; set; }
 		public Purpouse Purpouse { get; set; }
 
+		public List<Reminder> Reminders { get; set; }
+
 		public List<TaskListTask> TaskListTasks { get; set; }
 
-		Task()
+		public Task()
 		{
 			TaskListTasks = new List<TaskListTask>();
 		}

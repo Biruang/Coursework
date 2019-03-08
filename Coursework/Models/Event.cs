@@ -5,17 +5,13 @@ using System.Threading.Tasks;
 
 namespace Coursework.Models
 {
-	public class TaskList
+	public class Event
 	{
 		public int Id { get; set; }
 		public string Name { get; set; }
-		public string Color { get; set; }
+		public DateTime CreationTime { get; set; }
+		public string Description { get; set; }
 
-		public List<TaskListTask> TaskListTasks { get; set; }
-
-		public TaskList()
-		{
-			TaskListTasks = new List<TaskListTask>();
-		}
+		public Reminder Reminder { get; set; }
 	}
 }

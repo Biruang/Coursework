@@ -30,11 +30,7 @@ namespace Coursework
 
 			app.Run(async (context) =>
 			{
-				SheduleDbContext db = new SheduleDbContext();
-				//Purpouse purp = db.Purpouses.Include(t => t.Tasks).FirstOrDefault();
-				var task = db.Tasks.Include(tl => tl.TaskListTasks).ThenInclude(tl => tl.TaskList).ToArray(); 
-				await context.Response.WriteAsync($"List name: {task.FirstOrDefault().Name}, task name {task.FirstOrDefault().TaskListTasks.Select(t => t.TaskList).ToList().FirstOrDefault().Name}");
-				//await context.Response.WriteAsync($"Purpouse name: {purp.Name}, task name {purp.Tasks.FirstOrDefault().Name}");
+				await context.Response.WriteAsync($"Hello");
 			});
 		}
 	}

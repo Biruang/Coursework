@@ -9,7 +9,7 @@ namespace Coursework.Models
 	{
 		public int Id { get; set; }
 		public string Name { get; set; }
-		public string CreationTime { get; set; }
+		public DateTime CreationTime { get; set; }
 		public string Description { get; set; }
 
 		public List<Task> Tasks { get; set; }
