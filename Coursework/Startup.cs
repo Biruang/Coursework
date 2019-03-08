@@ -13,6 +13,7 @@ namespace Coursework
 	{
 		public void ConfigureServices(IServiceCollection services)
 		{
+			services.AddMvc();
 		}
 
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -21,6 +22,9 @@ namespace Coursework
 			{
 				app.UseDeveloperExceptionPage();
 			}
+
+			app.UseStaticFiles();
+			app.UseDefaultFiles();
 
 			app.Run(async (context) =>
 			{
