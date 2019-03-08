@@ -8,7 +8,7 @@ namespace Coursework.Models
 {
 	public class SheduleDbContext : DbContext
 	{
-		public SheduleDbContext()
+		public SheduleDbContext(): base()
 		{
 			Database.EnsureCreated();
 		}

@@ -28,9 +28,11 @@ namespace Coursework
 			//app.UseStaticFiles();
 			//app.UseDefaultFiles();
 
-			app.Run(async (context) =>
+			app.UseMvc(routes =>
 			{
-				await context.Response.WriteAsync($"Hello");
+				routes.MapRoute(
+					name: "default",
+					template: "api/{controller}/{id?}");
 			});
 		}
 	}
