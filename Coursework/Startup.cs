@@ -23,14 +23,15 @@ namespace Coursework
 			if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
+				app.UseWebpackDevMiddleware();
 			}
 
-			//app.UseStaticFiles();
-			//app.UseDefaultFiles();
-
-			app.Run(async (context) =>
+			app.UseStaticFiles();
+			app.UseMvc(route =>
 			{
-				await context.Response.WriteAsync($"Hello");
+				route.MapRoute(
+					name: "default",
+					template: "{controller=Home}/{action=Index}/{id?}");
 			});
 		}
 	}
