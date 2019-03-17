@@ -23,17 +23,19 @@ namespace Coursework
 			if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
+				app.UseWebpackDevMiddleware();
 			}
 
-			//app.UseStaticFiles();
-			//app.UseDefaultFiles();
-
-			app.UseMvc(routes =>
+			app.UseStaticFiles();
+			app.UseMvc(route =>
 			{
-				routes.MapRoute(
+				route.MapRoute(
 					name: "default",
-					template: "api/{controller}/{id?}");
-			});
+					template: "{controller=Home}/{action=Index}/{id?}");
+				route.MapSpaFallbackRoute(
+					name: "spaFallbackDefault",
+					defaults: new {controller="Home",action="Index"});
+      }
 		}
 	}
 }
