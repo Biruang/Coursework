@@ -35,7 +35,7 @@ namespace Coursework
 				route.MapSpaFallbackRoute(
 					name: "spaFallbackDefault",
 					defaults: new {controller="Home",action="Index"});
-			});
+      }
 		}
 	}
 }
