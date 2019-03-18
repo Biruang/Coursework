@@ -4,8 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using TaskEntity = Coursework.Models.Task;
 using Coursework.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Microsoft.EntityFrameworkCore;
 
 namespace Coursework.Controllers
@@ -23,12 +24,30 @@ namespace Coursework.Controllers
 		[HttpGet]
 		public IActionResult Get()
 		{
-			return Ok(db.Tasks.ToList());
+			JArray output = new JArray();
+			db.Tasks
+				.Include(t => t.TaskListTasks).ThenInclude(p => p.TaskList)
+				.Include(t => t.Purpouse)
+				.Include(t=>t.Reminders)
+				.Load();
+			var tasks = db.Tasks;
+
+			foreach (var t in tasks)
+			{
+				output.Add(Models.Task.ToJsonFull(t));
+			}
+			return Ok(output);
 		}
 
 		[HttpGet("{id}")]
 		public async Task<IActionResult> Get(int id)
 		{
+			await db.Tasks
+				.Where(t => t.Id == id)
+				.Include(t => t.TaskListTasks).ThenInclude(p => p.TaskList)
+				.Include(t => t.Reminders)
+				.Include(t => t.Purpouse)
+				.LoadAsync();
 			var task = await db.Tasks.FindAsync(id);
 
 			if (task == null)
@@ -36,11 +55,11 @@ namespace Coursework.Controllers
 				return NotFound();
 			}
 
-			return Ok(task);
+			return Ok(Models.Task.ToJsonFull(task));
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Post([FromBody]TaskEntity task)
+		public async Task<IActionResult> Post([FromBody]Models.Task task)
 		{
 			if (task == null)
 			{
@@ -66,7 +85,7 @@ namespace Coursework.Controllers
 		}
 
 		[HttpPut("{id}")]
-		public async Task<IActionResult> Put(int id, [FromBody]TaskEntity inputTask)
+		public async Task<IActionResult> Put(int id, [FromBody]Models.Task inputTask)
 		{
 			var task = await db.Tasks.FindAsync(id);
 
