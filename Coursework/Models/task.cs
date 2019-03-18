@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Coursework.Models
 {
@@ -15,13 +18,47 @@ namespace Coursework.Models
 		public int? PurpouseId { get; set; }
 		public Purpouse Purpouse { get; set; }
 
+		[JsonIgnore]
 		public List<Reminder> Reminders { get; set; }
-
+		[JsonIgnore]
 		public List<TaskListTask> TaskListTasks { get; set; }
 
 		public Task()
 		{
 			TaskListTasks = new List<TaskListTask>();
+			Reminders = new List<Reminder>();
+		}
+
+		public static JObject ToJsonFull(Task task)
+		{
+			var taskLists = task.TaskListTasks.Select(p => p.TaskList);
+			return new JObject(JObject.FromObject(new
+			{
+				id = task.Id,
+				name = task.Name,
+				description = task.Description,
+				completed = task.Completed,
+				creationTime = task.CreationTime,
+				purpouse = task.Purpouse,
+				taskLists =
+					from p in taskLists
+					select TaskList.ToJson(p),
+				reminders =
+					from p in task.Reminders
+					select Reminder.ToJson(p)
+			}));
+		}
+
+		static public JObject ToJson(Task task)
+		{
+			return new JObject(JObject.FromObject(new
+			{
+				id = task.Id,
+				name = task.Name,
+				description = task.Description,
+				completed = task.Completed,
+				creationTime = task.CreationTime
+			}));
 		}
 	}
 }

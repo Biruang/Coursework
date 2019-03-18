@@ -17,7 +17,8 @@ namespace Coursework.Models
 		public DbSet<Purpouse> Purpouses { get; set; }
 		public DbSet<TaskList> TaskLists { get; set; }
 		public DbSet<Reminder> Reminders { get; set; }
-		public DbSet<Event> Events { get; set; }
+		public DbSet<Accident> Accidents { get; set; }
+		public DbSet<TaskListTask> TasksListTasks { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
@@ -28,9 +29,11 @@ namespace Coursework.Models
 			modelBuilder.Entity<TaskList>().HasData(
 				new TaskList { Id = 1, Name = "testTaskList", Color = "red" });
 			modelBuilder.Entity<Reminder>().HasData(
-				new Reminder { Id = 1, CreationTime = DateTime.Now, RepeatMode = 1, TriggerTime = (DateTime.Now.AddHours(1)), EventId = 1 });
-			modelBuilder.Entity<Event>().HasData(
-				new Event { Id = 1, Name = "testEvent", CreationTime = DateTime.Now });
+				new Reminder { Id = 1, CreationTime = DateTime.Now, RepeatMode = 1, TriggerTime = (DateTime.Now.AddHours(1)), AccidentId = 1 });
+			modelBuilder.Entity<Accident>().HasData(
+				new Accident { Id = 1, Name = "testEvent", CreationTime = DateTime.Now });
+			modelBuilder.Entity<TaskListTask>().HasData(
+				new TaskListTask { Id = 1, TaskId = 1, TaskListId = 1 });
 		}
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
