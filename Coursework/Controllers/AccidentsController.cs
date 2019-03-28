@@ -22,7 +22,6 @@ namespace Coursework.Controllers
 		[HttpGet]
 		public IActionResult Get()
 		{
-			JArray output = new JArray();
 			db.Accidents.Include(t => t.Reminder).Load();
 			var accidents = db.Accidents;
 

@@ -24,7 +24,6 @@ namespace Coursework.Controllers
 		[HttpGet]
 		public IActionResult Get()
 		{
-			JArray output = new JArray();
 			db.Tasks
 				.Include(t => t.TaskListTasks).ThenInclude(p => p.TaskList)
 				.Include(t => t.Purpouse)
@@ -58,24 +57,19 @@ namespace Coursework.Controllers
 		{
 			if (task == null)
 			{
-				ModelState.AddModelError("", "Task don't exist");
+				return BadRequest("Task don't exist");
 			}
 
 			try
 			{
-				db.Add(task);
-				await db.SaveChangesAsync();
+				await db.AddAsync(task);
 			}
 			catch(Exception e)
 			{
-				ModelState.AddModelError("Task", e.Message);
+				return BadRequest(e.Message);
 			}
 
-			if (!ModelState.IsValid)
-			{
-				return BadRequest(ModelState);
-			}
-
+			await db.SaveChangesAsync();
 			return CreatedAtAction("TaskPost",task);
 		}
 
@@ -96,17 +90,13 @@ namespace Coursework.Controllers
 				task.PurpouseId = inputTask.PurpouseId;
 
 				db.Tasks.Update(task);
-				await db.SaveChangesAsync();
 			}
 			catch (Exception e)
 			{
-				ModelState.AddModelError("", e.Message);
+				return BadRequest(e.Message);
 			}
 
-			if (!ModelState.IsValid)
-			{
-				return BadRequest(ModelState);
-			}
+			await db.SaveChangesAsync();
 			return NoContent();
 		}
 
@@ -126,12 +116,7 @@ namespace Coursework.Controllers
 			}
 			catch(Exception e)
 			{
-				ModelState.AddModelError("",e.Message);
-			}
-
-			if (!ModelState.IsValid)
-			{
-				return BadRequest(ModelState);
+				return BadRequest(e.Message);
 			}
 
 			return NoContent();

@@ -22,7 +22,6 @@ namespace Coursework.Controllers
 		[HttpGet]
 		public IActionResult Get()
 		{
-			JArray output = new JArray();
 			db.TaskLists.Include(t => t.TaskListTasks).ThenInclude(t=> t.Task).Load();
 			var taskLists = db.TaskLists;
 
@@ -48,23 +47,19 @@ namespace Coursework.Controllers
 		{
 			if (taskList == null)
 			{
-				ModelState.AddModelError("", "Task list doesn't exist");
+				return BadRequest("Task list doesn't exist");
 			}
 
 			try
 			{
-				db.TaskLists.Add(taskList);
-				await db.SaveChangesAsync();
+				await db.TaskLists.AddAsync(taskList);
 			}
 			catch(Exception e)
 			{
-				ModelState.AddModelError("TaskList", e.Message);
+				return BadRequest(e.Message);
 			}
 
-			if (!ModelState.IsValid)
-			{
-				return BadRequest(ModelState);
-			}
+			await db.SaveChangesAsync();
 			return CreatedAtAction("TaskListPost", taskList);
 		}
 
@@ -79,16 +74,18 @@ namespace Coursework.Controllers
 
 			try
 			{
+				
 				taskList.Name = inputList.Name;
 				taskList.Color = inputList.Color;
 
 				db.TaskLists.Update(taskList);
-				await db.SaveChangesAsync();
 			}
 			catch(Exception e)
 			{
 				return BadRequest(e);
 			}
+
+			await db.SaveChangesAsync();
 			return NoContent();
 		}
 
