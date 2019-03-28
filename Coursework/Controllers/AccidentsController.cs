@@ -26,11 +26,7 @@ namespace Coursework.Controllers
 			db.Accidents.Include(t => t.Reminder).Load();
 			var accidents = db.Accidents;
 
-			foreach (var r in accidents)
-			{
-				output.Add(Accident.ToJsonFull(r));
-			}
-			return Ok(output);
+			return Ok(accidents);
 		}
 
 		[HttpGet("{id}")]
@@ -44,7 +40,7 @@ namespace Coursework.Controllers
 				return NotFound();
 			}
 
-			return Ok(Accident.ToJsonFull(accident));
+			return Ok(accident);
 		}
 	}
 }

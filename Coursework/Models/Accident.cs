@@ -17,17 +17,5 @@ namespace Coursework.Models
 
 		[JsonIgnore]
 		public Reminder Reminder { get; set; }
-
-		static public JObject ToJsonFull(Accident accident)
-		{
-			return new JObject(JObject.FromObject(new
-			{
-				id = accident.Id,
-				name = accident.Name,
-				description = accident.Description,
-				creationTime = accident.CreationTime,
-				reminder = accident.Reminder
-			}));
-		}
 	}
 }

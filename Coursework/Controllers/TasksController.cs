@@ -31,12 +31,7 @@ namespace Coursework.Controllers
 				.Include(t=>t.Reminders)
 				.Load();
 			var tasks = db.Tasks;
-
-			foreach (var t in tasks)
-			{
-				output.Add(Models.Task.ToJsonFull(t));
-			}
-			return Ok(output);
+			return Ok(tasks);
 		}
 
 		[HttpGet("{id}")]
@@ -55,7 +50,7 @@ namespace Coursework.Controllers
 				return NotFound();
 			}
 
-			return Ok(Models.Task.ToJsonFull(task));
+			return Ok(task);
 		}
 
 		[HttpPost]
@@ -99,6 +94,8 @@ namespace Coursework.Controllers
 				task.Description = inputTask.Description;
 				task.Completed = inputTask.Completed;
 				task.PurpouseId = inputTask.PurpouseId;
+
+				db.Tasks.Update(task);
 				await db.SaveChangesAsync();
 			}
 			catch (Exception e)

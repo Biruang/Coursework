@@ -28,37 +28,5 @@ namespace Coursework.Models
 			TaskListTasks = new List<TaskListTask>();
 			Reminders = new List<Reminder>();
 		}
-
-		public static JObject ToJsonFull(Task task)
-		{
-			var taskLists = task.TaskListTasks.Select(p => p.TaskList);
-			return new JObject(JObject.FromObject(new
-			{
-				id = task.Id,
-				name = task.Name,
-				description = task.Description,
-				completed = task.Completed,
-				creationTime = task.CreationTime,
-				purpouse = task.Purpouse,
-				taskLists =
-					from p in taskLists
-					select TaskList.ToJson(p),
-				reminders =
-					from p in task.Reminders
-					select Reminder.ToJson(p)
-			}));
-		}
-
-		static public JObject ToJson(Task task)
-		{
-			return new JObject(JObject.FromObject(new
-			{
-				id = task.Id,
-				name = task.Name,
-				description = task.Description,
-				completed = task.Completed,
-				creationTime = task.CreationTime
-			}));
-		}
 	}
 }

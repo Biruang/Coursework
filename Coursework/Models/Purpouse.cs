@@ -22,30 +22,5 @@ namespace Coursework.Models
 		{
 			Tasks = new List<Task>();
 		}
-
-		static public JObject ToJsonFull(Purpouse purpouse)
-		{
-			return new JObject(JObject.FromObject(new
-			{
-				id = purpouse.Id,
-				name = purpouse.Name,
-				description = purpouse.Description,
-				creationTime = purpouse.CreationTime,
-				tasks = 
-					from p in purpouse.Tasks
-					select Task.ToJson(p)
-			}));
-		}
-
-		static public JObject ToJson(Purpouse purpouse)
-		{
-			return new JObject(JObject.FromObject(new
-			{
-				id = purpouse.Id,
-				name = purpouse.Name,
-				description = purpouse.Description,
-				creationTime = purpouse.CreationTime,
-			}));
-		}
 	}
 }

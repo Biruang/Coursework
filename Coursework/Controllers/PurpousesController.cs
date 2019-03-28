@@ -26,11 +26,7 @@ namespace Coursework.Controllers
 			db.Purpouses.Include(t => t.Tasks).Load();
 			var purpouses = db.Purpouses;
 
-			foreach (var r in purpouses)
-			{
-				output.Add(Purpouse.ToJsonFull(r));
-			}
-			return Ok(output);
+			return Ok(purpouses);
 		}
 
 		[HttpGet("{id}")]
@@ -44,7 +40,7 @@ namespace Coursework.Controllers
 				return NotFound();
 			}
 
-			return Ok(Purpouse.ToJsonFull(purpouse));
+			return Ok(purpouse);
 		}
 	}
 }
