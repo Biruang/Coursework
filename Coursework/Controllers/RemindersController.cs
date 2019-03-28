@@ -58,6 +58,54 @@ namespace Coursework.Controllers
 			{
 				return BadRequest(e.Message);
 			}
+
+			await db.SaveChangesAsync();
+			return CreatedAtAction("ReminderPost", reminder);
+		}
+
+		[HttpPut("{id}")]
+		public async Task<IActionResult> Put(int id, [FromBody]Reminder inputReminder)
+		{
+			var reminder = await db.Reminders.FindAsync(id);
+
+			if (reminder == null)
+			{
+				return NotFound();
+			}
+
+			try
+			{
+				reminder.RepeatMode = inputReminder.RepeatMode;
+				reminder.TriggerTime = inputReminder.TriggerTime;
+
+				db.Reminders.Update(reminder);
+			}
+			catch (Exception e)
+			{
+				return BadRequest(e);
+			}
+
+			await db.SaveChangesAsync();
+			return NoContent();
+		}
+
+		[HttpDelete("{id}")]
+		public async Task<IActionResult> Delete(int id)
+		{
+			var reminder = await db.Reminders.FindAsync(id);
+			if (reminder == null) return NotFound();
+
+			try
+			{
+				db.Reminders.Remove(reminder);
+			}
+			catch(Exception e)
+			{
+				return BadRequest(e);
+			}
+
+			await db.SaveChangesAsync();
+			return NoContent();
 		}
 	}
 }
