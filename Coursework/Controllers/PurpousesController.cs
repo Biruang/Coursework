@@ -91,10 +91,8 @@ namespace Coursework.Controllers
 		public async Task<IActionResult> Delete(int id)
 		{
 			var purpouse = await db.Purpouses.FindAsync(id);
-			if (purpouse == null)
-			{
-				return NotFound();
-			}
+			if (purpouse == null) return NotFound();
+
 			try
 			{
 				db.Purpouses.Remove(purpouse);

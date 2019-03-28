@@ -41,5 +41,64 @@ namespace Coursework.Controllers
 
 			return Ok(accident);
 		}
+
+		[HttpPost]
+		public async Task<IActionResult> Post([FromBody]Accident accident)
+		{
+			if (accident == null) return BadRequest("Accident doesn't exist");
+
+			try
+			{
+				await db.Accidents.AddAsync(accident);
+			}
+			catch (Exception e)
+			{
+				return BadRequest(e);
+			}
+
+			await db.SaveChangesAsync();
+			return CreatedAtAction("AccidentAction", accident);
+		}
+
+		[HttpPut("{id}")]
+		public async Task<IActionResult> Put(int id, [FromBody]Accident inputAccident)
+		{
+			var accident = await db.Accidents.FindAsync(id);
+			if (accident == null) return NotFound();
+
+			try
+			{
+				accident.Name = inputAccident.Name;
+				accident.Description = inputAccident.Description;
+
+				db.Accidents.Update(accident);
+			}
+			catch(Exception e)
+			{
+				return BadRequest(e);
+			}
+
+			await db.SaveChangesAsync();
+			return NoContent();
+		}
+
+		[HttpDelete("{id}")]
+		public async Task<IActionResult> Delete(int id)
+		{
+			var accident = await db.Accidents.FindAsync(id);
+			if (accident == null) return NotFound();
+
+			try
+			{
+				db.Accidents.Remove(accident);
+			}
+			catch(Exception e)
+			{
+				return BadRequest(e);
+			}
+
+			await db.SaveChangesAsync();
+			return NoContent();
+		}
 	}
 }

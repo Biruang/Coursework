@@ -94,10 +94,7 @@ namespace Coursework.Controllers
 		{
 			var taskList = await db.TaskLists.FindAsync(id);
 
-			if (taskList == null)
-			{
-				return NotFound();
-			}
+			if (taskList == null) return NotFound();
 
 			try
 			{
