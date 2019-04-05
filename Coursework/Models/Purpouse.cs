@@ -15,7 +15,6 @@ namespace Coursework.Models
 		public DateTime CreationTime { get; set; }
 		public string Description { get; set; }
 
-		[JsonIgnore]
 		public List<Task> Tasks { get; set; }
 
 		public Purpouse()
