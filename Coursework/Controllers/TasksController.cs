@@ -24,19 +24,13 @@ namespace Coursework.Controllers
 		[HttpGet]
 		public IActionResult Get()
 		{
-			JArray output = new JArray();
 			db.Tasks
 				.Include(t => t.TaskListTasks).ThenInclude(p => p.TaskList)
 				.Include(t => t.Purpouse)
 				.Include(t=>t.Reminders)
 				.Load();
 			var tasks = db.Tasks;
-
-			foreach (var t in tasks)
-			{
-				output.Add(Models.Task.ToJsonFull(t));
-			}
-			return Ok(output);
+			return Ok(tasks);
 		}
 
 		[HttpGet("{id}")]
@@ -55,7 +49,7 @@ namespace Coursework.Controllers
 				return NotFound();
 			}
 
-			return Ok(Models.Task.ToJsonFull(task));
+			return Ok(task);
 		}
 
 		[HttpPost]
@@ -63,24 +57,19 @@ namespace Coursework.Controllers
 		{
 			if (task == null)
 			{
-				ModelState.AddModelError("", "Task don't exist");
+				return BadRequest("Task don't exist");
 			}
 
 			try
 			{
-				db.Add(task);
-				await db.SaveChangesAsync();
+				await db.AddAsync(task);
 			}
 			catch(Exception e)
 			{
-				ModelState.AddModelError("Task", e.Message);
+				return BadRequest(e.Message);
 			}
 
-			if (!ModelState.IsValid)
-			{
-				return BadRequest(ModelState);
-			}
-
+			await db.SaveChangesAsync();
 			return CreatedAtAction("TaskPost",task);
 		}
 
@@ -99,17 +88,15 @@ namespace Coursework.Controllers
 				task.Description = inputTask.Description;
 				task.Completed = inputTask.Completed;
 				task.PurpouseId = inputTask.PurpouseId;
-				await db.SaveChangesAsync();
+
+				db.Tasks.Update(task);
 			}
 			catch (Exception e)
 			{
-				ModelState.AddModelError("", e.Message);
+				return BadRequest(e.Message);
 			}
 
-			if (!ModelState.IsValid)
-			{
-				return BadRequest(ModelState);
-			}
+			await db.SaveChangesAsync();
 			return NoContent();
 		}
 
@@ -117,10 +104,7 @@ namespace Coursework.Controllers
 		public async Task<IActionResult> Delete(int id)
 		{
 			var task = await db.Tasks.FindAsync(id);
-			if (task == null)
-			{
-				return NotFound();
-			}
+			if (task == null) return NotFound();
 
 			try
 			{
@@ -129,12 +113,7 @@ namespace Coursework.Controllers
 			}
 			catch(Exception e)
 			{
-				ModelState.AddModelError("",e.Message);
-			}
-
-			if (!ModelState.IsValid)
-			{
-				return BadRequest(ModelState);
+				return BadRequest(e.Message);
 			}
 
 			return NoContent();

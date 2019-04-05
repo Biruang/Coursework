@@ -18,28 +18,5 @@ namespace Coursework.Models
 		{
 			TaskListTasks = new List<TaskListTask>();
 		}
-
-		static public JObject ToJsonFull(TaskList taskList)
-		{
-			var tasks = taskList.TaskListTasks.Select(p => p.Task);
-			return new JObject(JObject.FromObject(new {
-				id = taskList.Id,
-				name = taskList.Name,
-				color = taskList.Color,
-				tasks = 
-					from p in tasks
-					select Task.ToJson(p)
-			}));
-		}
-
-		static public JObject ToJson(TaskList taskList)
-		{
-			return new JObject(JObject.FromObject(new
-			{
-				id = taskList.Id,
-				name = taskList.Name,
-				color = taskList.Color
-			}));
-		}
 	}
 }

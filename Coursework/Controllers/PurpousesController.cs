@@ -22,15 +22,10 @@ namespace Coursework.Controllers
 		[HttpGet]
 		public IActionResult Get()
 		{
-			JArray output = new JArray();
 			db.Purpouses.Include(t => t.Tasks).Load();
 			var purpouses = db.Purpouses;
 
-			foreach (var r in purpouses)
-			{
-				output.Add(Purpouse.ToJsonFull(r));
-			}
-			return Ok(output);
+			return Ok(purpouses);
 		}
 
 		[HttpGet("{id}")]
@@ -44,7 +39,71 @@ namespace Coursework.Controllers
 				return NotFound();
 			}
 
-			return Ok(Purpouse.ToJsonFull(purpouse));
+			return Ok(purpouse);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> Post([FromBody]Purpouse purpouse)
+		{
+			if (purpouse == null)
+			{
+				return BadRequest("Purpouse doesn't exist");
+			}
+
+			try
+			{
+				await db.Purpouses.AddAsync(purpouse);
+			}
+			catch (Exception e)
+			{
+				return BadRequest(e.Message);
+			}
+
+			await db.SaveChangesAsync();
+			return CreatedAtAction("PurpousePost", purpouse);
+		}
+
+		[HttpPut("{id}")]
+		public async Task<IActionResult> Put(int id, [FromBody]Purpouse inputPurpouse)
+		{
+			var purpouse = await db.Purpouses.FindAsync(id);
+			if (purpouse == null)
+			{
+				return NotFound();
+			}
+
+			try
+			{
+				purpouse.Name = inputPurpouse.Name;
+				purpouse.Description = inputPurpouse.Description;
+				db.Purpouses.Update(purpouse);
+			}
+			catch(Exception e)
+			{
+				return BadRequest(e);
+			}
+
+			await db.SaveChangesAsync();
+			return NoContent();
+		}
+
+		[HttpDelete("{id}")]
+		public async Task<IActionResult> Delete(int id)
+		{
+			var purpouse = await db.Purpouses.FindAsync(id);
+			if (purpouse == null) return NotFound();
+
+			try
+			{
+				db.Purpouses.Remove(purpouse);
+				await db.SaveChangesAsync();
+			}
+			catch(Exception e)
+			{
+				return BadRequest(e);
+			}
+
+			return NoContent();
 		}
 	}
 }

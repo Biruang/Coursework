@@ -14,30 +14,6 @@ namespace Coursework.Models
 		public int RepeatMode { get; set; }
 		public DateTime TriggerTime { get; set; }
 
-		static public JObject ToJsonFull(Reminder reminder)
-		{
-			return new JObject(JObject.FromObject(new
-			{
-				id = reminder.Id,
-				creationTime = reminder.CreationTime,
-				repeatMode = reminder.RepeatMode,
-				triggerTime = reminder.TriggerTime,
-				task = reminder.Task,
-				accident = reminder.Accident
-			}));
-		}
-
-		static public JObject ToJson(Reminder reminder)
-		{
-			return new JObject(JObject.FromObject(new
-			{
-				id = reminder.Id,
-				creationTime = reminder.CreationTime,
-				repeatMode = reminder.RepeatMode,
-				triggerTime = reminder.TriggerTime
-			}));
-		}
-
 		public int? TaskId { get; set; }
 		public Task Task { get; set; }
 

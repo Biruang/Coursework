@@ -15,7 +15,8 @@ namespace Coursework
 	{
 		public void ConfigureServices(IServiceCollection services)
 		{
-			services.AddMvc();
+			services.AddMvc()
+				.AddJsonOptions(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 		}
 
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -34,8 +35,8 @@ namespace Coursework
 					template: "{controller=Home}/{action=Index}/{id?}");
 				route.MapSpaFallbackRoute(
 					name: "spaFallbackDefault",
-					defaults: new {controller="Home",action="Index"});
-      }
+					defaults: new { controller = "Home", action = "Index" });
+			});
 		}
 	}
 }
