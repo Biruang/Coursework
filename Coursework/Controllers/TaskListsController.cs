@@ -22,16 +22,12 @@ namespace Coursework.Controllers
 		[HttpGet]
 		public IActionResult Get()
 		{
-			db.TaskLists.Include(t => t.TaskListTasks).ThenInclude(t=> t.Task).Load();
-			var taskLists = db.TaskLists;
-
-			return Ok(taskLists);
+			return Ok(db.TaskLists);
 		}
 
 		[HttpGet("{id}")]
 		public async Task<IActionResult> Get(int id)
 		{
-			await db.TaskLists.Where(t => t.Id == id).Include(t => t.TaskListTasks).ThenInclude(t=>t.Task).LoadAsync();
 			var taskList = await db.TaskLists.FindAsync(id);
 
 			if (taskList == null)
@@ -64,7 +60,7 @@ namespace Coursework.Controllers
 		}
 
 		[HttpPut("{id}")]
-		public async Task<IActionResult> Put(int id, [FromBody]TaskList inputList)
+		public async Task<IActionResult> Put(int id, [FromBody]JObject input)
 		{
 			var taskList = await db.TaskLists.FindAsync(id);
 			if(taskList == null)
@@ -74,10 +70,8 @@ namespace Coursework.Controllers
 
 			try
 			{
-				
-				taskList.Name = inputList.Name;
-				taskList.Color = inputList.Color;
-
+				taskList.Name = input.ContainsKey("name") ? input["name"].ToString() : taskList.Name;
+				taskList.Color = input.ContainsKey("color") ? input["color"].ToString() : taskList.Color;
 				db.TaskLists.Update(taskList);
 			}
 			catch(Exception e)
@@ -93,9 +87,7 @@ namespace Coursework.Controllers
 		public async Task<IActionResult> Delete(int id)
 		{
 			var taskList = await db.TaskLists.FindAsync(id);
-
 			if (taskList == null) return NotFound();
-
 			try
 			{
 				db.TaskLists.Remove(taskList);
@@ -105,6 +97,81 @@ namespace Coursework.Controllers
 			{
 				return BadRequest(e.Message);
 			}
+			return NoContent();
+		}
+
+		[HttpGet("{id}/tasks")]
+		async public Task<IActionResult> GetTasks(int id)
+		{
+			await db.TaskLists.Where(t => t.Id == id).Include(t => t.TaskListTasks).ThenInclude(t => t.Task).LoadAsync();
+			var taskList = await db.TaskLists.FindAsync(id);
+			if (taskList == null) return NotFound();
+
+			var tasks = taskList.TaskListTasks.Select(t => t.Task);
+			JArray response = new JArray();
+			foreach(var task in tasks)
+			{
+				response.Add(Serializer.SerializeTask(task));
+			}
+			return Ok(response);
+		}
+
+		[HttpPost("{id}/tasks/{taskId}")]
+		async public Task<IActionResult> AddTaskInList(int id, int taskId)
+		{
+			if (await db.TaskLists.FindAsync(id) == null) ModelState.AddModelError("Database","Task list with this id don't exist");
+			if (await db.Tasks.FindAsync(taskId) == null) ModelState.AddModelError("Database", "Task with this id don't exist");
+			foreach(var taskListTask in db.TasksListTasks) {
+				if ((taskListTask.TaskId == taskId) && (taskListTask.TaskListId == id))
+				{
+					ModelState.AddModelError("Database", "This relationship already exist");
+					break;
+				}
+			}
+			if (!ModelState.IsValid) return BadRequest(ModelState);
+
+			await db.TasksListTasks.AddAsync(new TaskListTask
+			{
+				TaskId = taskId,
+				TaskListId = id
+			});
+			db.SaveChanges();
+			return NoContent();
+		}
+
+		[HttpPost("{id}/tasks")]
+		public async Task<IActionResult> CreateTaskInList(int id,[FromBody]Models.Task task)
+		{
+			if (await db.TaskLists.FindAsync(id) == null) return NotFound("Task list with this id don't exist");
+			if (task.CreationTime == null) task.CreationTime = DateTime.Now;
+
+			await db.Tasks.AddAsync(task);
+			await db.TasksListTasks.AddAsync(new TaskListTask
+			{
+				TaskId = task.Id,
+				TaskListId = id
+			});
+			db.SaveChanges();
+
+			return Created("",Serializer.SerializeTask(task));
+		}
+
+		[HttpDelete("{id}/tasks/{taskId}")]
+		public async Task<IActionResult> DeleteTaskFromList(int id,int taskId)
+		{
+			if (await db.TaskLists.FindAsync(id) == null) return NotFound("Task list with this id don't exist");
+			TaskListTask find = new TaskListTask();
+			foreach (var taskListTask in db.TasksListTasks)
+			{
+				if ((taskListTask.TaskId == taskId) && (taskListTask.TaskListId == id))
+				{
+					find = taskListTask;
+					break;
+				}
+			}
+			if(find.TaskList == null) return NotFound("This relationship doesn't exist");
+			db.TasksListTasks.Remove(find);
+			await db.SaveChangesAsync();
 			return NoContent();
 		}
 	}

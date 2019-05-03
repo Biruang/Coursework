@@ -14,7 +14,7 @@ namespace Coursework.Models
 		}
 
 		public DbSet<Task> Tasks { get; set; }
-		public DbSet<Purpouse> Purpouses { get; set; }
+		public DbSet<Purpose> Purposes { get; set; }
 		public DbSet<TaskList> TaskLists { get; set; }
 		public DbSet<Reminder> Reminders { get; set; }
 		public DbSet<Accident> Accidents { get; set; }
@@ -24,8 +24,8 @@ namespace Coursework.Models
 		{
 			modelBuilder.Entity<Task>().HasData(
 				new Task { Id = 1, Name = "testTask", CreationTime = DateTime.Now, Completed = false });
-			modelBuilder.Entity<Purpouse>().HasData(
-				new Purpouse { Id = 1, Name = "testPurpouse", CreationTime = DateTime.Now });
+			modelBuilder.Entity<Purpose>().HasData(
+				new Purpose { Id = 1, Name = "testPurpose", CreationTime = DateTime.Now });
 			modelBuilder.Entity<TaskList>().HasData(
 				new TaskList { Id = 1, Name = "testTaskList", Color = "red" });
 			modelBuilder.Entity<Reminder>().HasData(
