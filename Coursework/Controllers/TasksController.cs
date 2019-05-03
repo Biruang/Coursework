@@ -25,70 +25,69 @@ namespace Coursework.Controllers
 		public IActionResult Get()
 		{
 			db.Tasks
-				.Include(t => t.TaskListTasks).ThenInclude(p => p.TaskList)
-				.Include(t => t.Purpouse)
 				.Include(t=>t.Reminders)
+				.Include(t=>t.Purpose)
+				.Include(t=>t.TaskListTasks).ThenInclude(tl=>tl.TaskList)
 				.Load();
 			var tasks = db.Tasks;
-			return Ok(tasks);
+			JArray response = new JArray();
+			foreach(Models.Task task in tasks)
+			{
+				response.Add(Serializer.SerializeTask(task));
+			}
+			return Ok(response);
 		}
 
 		[HttpGet("{id}")]
 		public async Task<IActionResult> Get(int id)
 		{
-			await db.Tasks
-				.Where(t => t.Id == id)
-				.Include(t => t.TaskListTasks).ThenInclude(p => p.TaskList)
+			db.Tasks
 				.Include(t => t.Reminders)
-				.Include(t => t.Purpouse)
-				.LoadAsync();
+				.Include(t => t.Purpose)
+				.Include(t => t.TaskListTasks).ThenInclude(tl => tl.TaskList)
+				.Load();
 			var task = await db.Tasks.FindAsync(id);
-
 			if (task == null)
 			{
 				return NotFound();
 			}
-
-			return Ok(task);
+			return Ok(Serializer.SerializeTask(task));
 		}
 
 		[HttpPost]
 		public async Task<IActionResult> Post([FromBody]Models.Task task)
 		{
-			if (task == null)
+			if (task.CreationTime == null)
 			{
-				return BadRequest("Task don't exist");
+				task.CreationTime = DateTime.Now;
 			}
-
 			try
 			{
-				await db.AddAsync(task);
+				await db.Tasks.AddAsync(task);
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
 				return BadRequest(e.Message);
 			}
 
 			await db.SaveChangesAsync();
-			return CreatedAtAction("TaskPost",task);
+			return CreatedAtAction("TaskCreated",task);
 		}
 
 		[HttpPut("{id}")]
-		public async Task<IActionResult> Put(int id, [FromBody]Models.Task inputTask)
+		public async Task<IActionResult> Put(int id, [FromBody]JObject input)
 		{
 			var task = await db.Tasks.FindAsync(id);
-
 			if (task == null)
 			{
 				return NotFound();
 			}
+			JObject t = new JObject();
 			try
 			{
-				task.Name = inputTask.Name;
-				task.Description = inputTask.Description;
-				task.Completed = inputTask.Completed;
-				task.PurpouseId = inputTask.PurpouseId;
-
+				task.Name = input.ContainsKey("name") ? input["name"].ToString() : task.Name;
+				task.Description = input.ContainsKey("description") ? input["description"].ToString() : task.Description;
+				task.Completed = input.ContainsKey("completed") ? input["completed"].Value<bool>() : task.Completed;
 				db.Tasks.Update(task);
 			}
 			catch (Exception e)
