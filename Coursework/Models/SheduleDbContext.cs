@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,6 +16,7 @@ namespace Coursework.Models
 		}
 
 		public DbSet<Task> Tasks { get; set; }
+		public DbSet<User> Users { get; set; }
 		public DbSet<Purpose> Purposes { get; set; }
 		public DbSet<TaskList> TaskLists { get; set; }
 		public DbSet<Reminder> Reminders { get; set; }
@@ -24,6 +27,8 @@ namespace Coursework.Models
 		{
 			modelBuilder.Entity<Task>().HasData(
 				new Task { Id = 1, Name = "testTask", CreationTime = DateTime.Now, Completed = false });
+			modelBuilder.Entity<User>().HasData(
+				new User { Id = 1, Login = "admin", PasswordHash = Convert.ToBase64String(new SHA256Managed().ComputeHash(Encoding.UTF8.GetBytes("admin"))) });
 			modelBuilder.Entity<Purpose>().HasData(
 				new Purpose { Id = 1, Name = "testPurpose", CreationTime = DateTime.Now });
 			modelBuilder.Entity<TaskList>().HasData(
