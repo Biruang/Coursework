@@ -28,7 +28,7 @@ namespace Coursework.Models
 			modelBuilder.Entity<Task>().HasData(
 				new Task { Id = 1, Name = "testTask", CreationTime = DateTime.Now, Completed = false });
 			modelBuilder.Entity<User>().HasData(
-				new User { Id = 1, Login = "admin", PasswordHash = Convert.ToBase64String(new SHA256Managed().ComputeHash(Encoding.UTF8.GetBytes("admin"))) });
+				new User { Login = "admin", Password = Convert.ToBase64String(new SHA256Managed().ComputeHash(Encoding.UTF8.GetBytes("admin"))) });
 			modelBuilder.Entity<Purpose>().HasData(
 				new Purpose { Id = 1, Name = "testPurpose", CreationTime = DateTime.Now });
 			modelBuilder.Entity<TaskList>().HasData(
