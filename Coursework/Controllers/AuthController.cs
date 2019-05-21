@@ -25,7 +25,7 @@ namespace Coursework.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Login(UserViewModel model)
+		public async Task<IActionResult> LogIn(UserViewModel model)
 		{
 			var claims = await CheckIdentity(model.Login, model.Password);
 			if (claims == null)
@@ -43,6 +43,15 @@ namespace Coursework.Controllers
 			);
 			var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
 			return Ok(encodedJwt);
+		}
+
+		[HttpPost("SingIn")]
+		public async Task<IActionResult> SingIn(User model)
+		{
+			if (await db.Users.FindAsync(model.Login) != null) return BadRequest();
+			db.Users.Add(new User { Login = model.Login, Password = Convert.ToBase64String(new SHA256Managed().ComputeHash(Encoding.UTF8.GetBytes(model.Password))) });
+			await db.SaveChangesAsync();
+			return NoContent();
 		}
 
 		private async Task<IReadOnlyCollection<Claim>> CheckIdentity(string login, string password)
