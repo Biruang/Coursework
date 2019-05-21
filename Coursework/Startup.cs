@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Coursework.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace Coursework
 {
@@ -17,6 +20,23 @@ namespace Coursework
 		{
 			services.AddMvc()
 				.AddJsonOptions(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+				.AddJwtBearer(options =>
+				{
+					options.RequireHttpsMetadata = false;
+					options.SaveToken = true;
+					options.TokenValidationParameters = new TokenValidationParameters
+					{
+						ValidateIssuer = true,
+						ValidIssuer = AuthOptions.ISSUER,
+						ValidAudience = AuthOptions.AUDIENCE,
+						IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
+						ValidateLifetime = true,
+						ValidateIssuerSigningKey = true,
+						ClockSkew = TimeSpan.Zero
+					};
+				}
+				);
 		}
 
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -28,6 +48,7 @@ namespace Coursework
 			}
 
 			app.UseStaticFiles();
+			app.UseAuthentication();
 			app.UseMvc(route =>
 			{
 				route.MapRoute(
