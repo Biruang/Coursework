@@ -2,9 +2,31 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Purpouses from '../components/purpouses.jsx';
 import Lists from '../components/lists.jsx';
+import { getLists, getPurposes } from '../actions/sidebar.js';
 
 class Sidebar extends Component {
 	render() {
+		let lists, purp;
+
+		if (this.props.lists == null) {
+			this.props.getListsAction();
+			lists = <Lists loading={true} />;
+		} else {
+			<Lists lists={this.props.lists} loading={this.props.listLoading} />;
+		}
+
+		if (this.props.purposes == null) {
+			this.props.getPurpAction();
+			purp = <Purpouses loading={true} />;
+		} else {
+			purp = (
+				<Purpouses
+					purposes={this.props.purposes}
+					loading={this.props.purposeLoading}
+				/>
+			);
+		}
+
 		return (
 			<React.Fragment>
 				<div>
@@ -12,7 +34,7 @@ class Sidebar extends Component {
 						Цели:
 					</button>
 					<div className="show" id="purpouses">
-						<Purpouses purpouses={this.props.purpouses} />
+						{purp}
 					</div>
 				</div>
 				<div>
@@ -20,7 +42,7 @@ class Sidebar extends Component {
 						Списки:
 					</button>
 					<div className="collapse" id="lists">
-						<Lists lists={this.props.lists} />
+						{lists}
 					</div>
 				</div>
 			</React.Fragment>
@@ -31,8 +53,20 @@ class Sidebar extends Component {
 const mapStateToProps = store => {
 	return {
 		lists: store.sidebar.lists,
-		purpouses: store.sidebar.purpouses,
+		purposes: store.sidebar.purposes,
+		listLoading: store.sidebar.listLoading,
+		purposeLoading: store.sidebar.purposeLoading,
 	};
 };
 
-export default connect(mapStateToProps)(Sidebar);
+const mapDispatchToProps = dispatch => {
+	return {
+		getListsAction: () => dispatch(getLists()),
+		getPurpAction: () => dispatch(getPurposes()),
+	};
+};
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(Sidebar);

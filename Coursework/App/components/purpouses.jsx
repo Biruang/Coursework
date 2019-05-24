@@ -2,13 +2,19 @@ import React, { Component } from 'react';
 
 class Purpouses extends Component {
 	render() {
-		return (
-			<ul className="list-group">
-				{this.props.purpouses.map(purpouse => {
-					return <li className="list-group-item">{purpouse.name}</li>;
-				})}
-			</ul>
-		);
+		let body;
+		if (this.props.loading) {
+			body = (
+				<div class="spinner-border" role="status">
+					<span class="sr-only">Loading...</span>
+				</div>
+			);
+		} else {
+			body = this.props.purposes.map(purpose => {
+				return <li className="list-group-item">{purpose.name}</li>;
+			});
+		}
+		return <ul className="list-group">{body}</ul>;
 	}
 }
 
