@@ -44,7 +44,6 @@ namespace Coursework
 			if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
-				app.UseWebpackDevMiddleware();
 			}
 
 			app.UseStaticFiles();
