@@ -46,6 +46,7 @@ namespace Coursework
 				app.UseDeveloperExceptionPage();
 			}
 
+			app.UseDefaultFiles();
 			app.UseStaticFiles();
 			app.UseAuthentication();
 			app.UseMvc(route =>
@@ -53,9 +54,9 @@ namespace Coursework
 				route.MapRoute(
 					name: "default",
 					template: "{controller=Home}/{action=Index}/{id?}");
-				route.MapSpaFallbackRoute(
-					name: "spaFallbackDefault",
-					defaults: new { controller = "Home", action = "Index" });
+				//route.MapSpaFallbackRoute(
+				//	name: "spaFallbackDefault",
+				//	defaults: new { controller = "Home", action = "Index" });
 			});
 		}
 	}

@@ -1,0 +1,14 @@
+.taskTable {
+  display: inline-block;
+}
+
+.taskTable-line {
+  display: inline-block;
+}
+
+.taskTable-description {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  max-width: 200px;
+}

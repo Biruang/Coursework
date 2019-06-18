@@ -1,0 +1,12 @@
+.listComponent {
+}
+
+.listComponent > header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.listComponent h5 {
+  margin-bottom: 0;
+}
