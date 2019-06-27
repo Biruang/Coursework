@@ -1,33 +1,33 @@
 (window.webpackJsonp = window.webpackJsonp || []).push([
 	[0],
 	{
-		11: function(e, t, a) {},
-		25: function(e, t, a) {
-			e.exports = a(46);
+		18: function(e, t, a) {},
+		36: function(e, t, a) {
+			e.exports = a(58);
 		},
-		34: function(e, t, a) {},
-		38: function(e, t, a) {},
-		39: function(e, t, a) {},
-		40: function(e, t, a) {},
-		41: function(e, t, a) {},
-		42: function(e, t, a) {},
-		46: function(e, t, a) {
+		45: function(e, t, a) {},
+		50: function(e, t, a) {},
+		51: function(e, t, a) {},
+		52: function(e, t, a) {},
+		53: function(e, t, a) {},
+		54: function(e, t, a) {},
+		58: function(e, t, a) {
 			'use strict';
 			a.r(t);
 			var n = a(0),
 				r = a.n(n),
-				s = a(16),
+				s = a(24),
 				c = a.n(s),
-				o = a(1),
-				l = a(2),
-				i = a(4),
-				u = a(3),
-				p = a(5),
-				m = a(10),
+				o = a(2),
+				l = a(3),
+				i = a(5),
+				u = a(4),
+				p = a(6),
+				m = a(9),
 				d = 'GET_TASK_LISTS_REQUEST',
 				b = 'GET_TASK_LISTS_SUCCESS',
-				h = 'GET_TASK_LISTS_EXCEPTION';
-			function E() {
+				E = 'GET_TASK_LISTS_EXCEPTION';
+			function h() {
 				return function(e) {
 					e({ type: d, payload: '' }),
 						fetch('api/taskLists')
@@ -38,12 +38,43 @@
 								e({ type: b, payload: t });
 							})
 							.catch(function(t) {
-								e({ type: h, payload: t });
+								e({ type: E, payload: t });
 							});
 				};
 			}
-			a(34);
-			var f = (function(e) {
+			var f = 'GET_TASKS_REQUEST',
+				g = 'GET_TASKS_SUCCESS',
+				y = 'GET_TASKS_ERROR',
+				O = 'CREATE_TASK_REQUEST',
+				v = 'CREATE_TASK_SUCCESS',
+				k = 'CREATE_TASK_BAD',
+				j = 'CREATE_TASK_ERROR',
+				N = 'COMPLETE_TASK_REQUEST',
+				T = 'COMPLETE_TASK_SUCCESS',
+				w = 'COMPLETE_TASK_ERROR';
+			function S() {
+				return function(e) {
+					e({ type: f, payload: '' }),
+						fetch('api/tasks')
+							.then(function(e) {
+								return e.json();
+							})
+							.then(function(t) {
+								e({ type: g, payload: t });
+							})
+							.catch(function(t) {
+								e({ type: y, payload: t });
+							});
+				};
+			}
+			function C(e) {
+				return function(t) {
+					return t({ type: O, payload: e });
+				};
+			}
+			var L = a(17),
+				_ = (a(45),
+				(function(e) {
 					function t() {
 						return (
 							Object(o.a)(this, t),
@@ -56,6 +87,7 @@
 							{
 								key: 'render',
 								value: function() {
+									var e = this;
 									return r.a.createElement(
 										'header',
 										{ className: 'header-main' },
@@ -66,8 +98,14 @@
 													'navbar navbar-expand-lg navbar-dark bg-dark h-100',
 											},
 											r.a.createElement(
-												'button',
-												{ className: 'navbar-brand' },
+												L.b,
+												{
+													className: 'navbar-brand',
+													to: '/',
+													onClick: function() {
+														e.props.getTasks();
+													},
+												},
 												'Logo'
 											)
 										)
@@ -77,28 +115,28 @@
 						]),
 						t
 					);
-				})(r.a.Component),
-				y = Object(m.b)(
+				})(r.a.Component)),
+				A = Object(m.b)(
 					function(e) {
 						return { tasks: e.tasks, taskLists: e.taskLists };
 					},
 					function(e) {
 						return {
 							getTaskLists: function() {
-								return e(E());
+								return e(h());
+							},
+							getTasks: function() {
+								return e(S());
 							},
 						};
 					}
-				)(f),
-				O = 'GET_PURPOSE_REQUEST',
-				g = 'GET_PURPOSE_SUCCESS',
-				j = 'GET_PURPOSE_EXCEPTION';
-			var v = 'GET_TASKS_REQUEST',
-				k = 'GET_TASKS_SUCCESS',
-				N = 'GET_TASKS_ERROR';
-			var T = a(8),
-				w = a(7),
-				L = (a(38),
+				)(_),
+				P = 'GET_PURPOSE_REQUEST',
+				R = 'GET_PURPOSE_SUCCESS',
+				U = 'GET_PURPOSE_EXCEPTION';
+			var D = a(11),
+				G = a(10),
+				x = (a(50),
 				(function(e) {
 					function t(e) {
 						var a;
@@ -132,8 +170,8 @@
 													'shadow-sm list-group-item list-group-item-action',
 											},
 											r.a.createElement('h5', null, this.props.name),
-											r.a.createElement(T.a, {
-												icon: this.state.isOpen ? w.a : w.b,
+											r.a.createElement(D.a, {
+												icon: this.state.isOpen ? G.a : G.b,
 											})
 										),
 										a = this.props.list.map(function(t) {
@@ -188,7 +226,7 @@
 						t
 					);
 				})(r.a.Component)),
-				S = (a(39),
+				F = (a(51),
 				(function(e) {
 					function t() {
 						return (
@@ -217,14 +255,14 @@
 										r.a.createElement(
 											'div',
 											{ className: 'card-body' },
-											r.a.createElement(L, {
+											r.a.createElement(x, {
 												name: 'Task lists',
 												list: t.lists,
 												isOpen: !0,
 												isLoading: t.isLoading,
 												clickFunction: this.props.getTasksByList,
 											}),
-											r.a.createElement(L, {
+											r.a.createElement(x, {
 												name: 'Purposes',
 												list: a.purposes,
 												isLoading: t.isLoading,
@@ -238,27 +276,27 @@
 						t
 					);
 				})(r.a.Component)),
-				C = Object(m.b)(
+				K = Object(m.b)(
 					function(e) {
 						return { taskLists: e.taskLists, purposes: e.purposes };
 					},
 					function(e) {
 						return {
 							getTaskLists: function() {
-								return e(E());
+								return e(h());
 							},
 							getPurposes: function() {
 								return e(function(e) {
-									e({ type: O, payload: '' }),
+									e({ type: P, payload: '' }),
 										fetch('api/purposes')
 											.then(function(e) {
 												return e.json();
 											})
 											.then(function(t) {
-												e({ type: g, payload: t });
+												e({ type: R, payload: t });
 											})
 											.catch(function(t) {
-												e({ type: j, payload: t });
+												e({ type: U, payload: t });
 											});
 								});
 							},
@@ -266,16 +304,16 @@
 								return e(
 									(function(e) {
 										return function(t) {
-											t({ type: v, payload: '' }),
+											t({ type: f, payload: '' }),
 												fetch('api/taskLists/' + e + '/tasks')
 													.then(function(e) {
 														return e.json();
 													})
 													.then(function(e) {
-														t({ type: k, payload: e });
+														t({ type: g, payload: e });
 													})
 													.catch(function(e) {
-														t({ type: N, payload: e });
+														t({ type: y, payload: e });
 													});
 										};
 									})(t)
@@ -285,16 +323,16 @@
 								return e(
 									(function(e) {
 										return function(t) {
-											t({ type: v, payload: '' }),
+											t({ type: f, payload: '' }),
 												fetch('api/purposes/' + e + '/tasks')
 													.then(function(e) {
 														return e.json();
 													})
 													.then(function(e) {
-														t({ type: k, payload: e });
+														t({ type: g, payload: e });
 													})
 													.catch(function(e) {
-														t({ type: N, payload: e });
+														t({ type: y, payload: e });
 													});
 										};
 									})(t)
@@ -302,17 +340,17 @@
 							},
 						};
 					}
-				)(S),
-				_ = a(14),
-				D = (a(40), a(41), { month: 'long', day: 'numeric' }),
-				P = { year: 'numeric', month: 'long', day: 'numeric' },
-				G = {
+				)(F),
+				I = a(21),
+				B = (a(52), a(53), { month: 'long', day: 'numeric' }),
+				Q = { year: 'numeric', month: 'long', day: 'numeric' },
+				M = {
 					timezone: 'UTC',
 					hour: 'numeric',
 					minute: 'numeric',
 					second: 'numeric',
 				},
-				F = (function(e) {
+				J = (function(e) {
 					function t(e) {
 						var a;
 						return (
@@ -333,12 +371,12 @@
 										t = this.props.tasks.map(function(t) {
 											var a = new Date(Date.parse(t.creationTime)),
 												n = new Date(),
-												s = a.toLocaleString('ru', G);
+												s = a.toLocaleString('ru', M);
 											return (
 												a.getDay() !== n.getDate() &&
-													(s = a.toLocaleString('ru', D)),
+													(s = a.toLocaleString('ru', B)),
 												a.getFullYear() !== n.getFullYear() &&
-													(s = a.toLocaleString('ru', P)),
+													(s = a.toLocaleString('ru', Q)),
 												r.a.createElement(
 													'tr',
 													{ key: t.id },
@@ -346,7 +384,7 @@
 														'td',
 														null,
 														r.a.createElement('input', {
-															onChange: function() {
+															onClick: function() {
 																e.props.selectTask(t.id);
 															},
 															type: 'checkbox',
@@ -407,7 +445,14 @@
 						t
 					);
 				})(r.a.Component),
-				U = (a(11),
+				X = Object(m.b)(function(e) {
+					return {
+						selectTask: function(t) {
+							return e(C(t));
+						},
+					};
+				})(J),
+				z = (a(18),
 				(function(e) {
 					function t() {
 						return (
@@ -434,7 +479,7 @@
 												'aria-haspopup': 'true',
 												'aria-expanded': 'false',
 											},
-											r.a.createElement(T.a, { icon: w.d })
+											r.a.createElement(D.a, { icon: G.d })
 										),
 										r.a.createElement(
 											'div',
@@ -482,7 +527,7 @@
 						t
 					);
 				})(r.a.Component)),
-				x = (function(e) {
+				Y = (function(e) {
 					function t() {
 						return (
 							Object(o.a)(this, t),
@@ -495,10 +540,20 @@
 							{
 								key: 'render',
 								value: function() {
+									var e = this;
 									return r.a.createElement(
 										'button',
-										{ type: 'button', className: 'btn btn-secondary' },
-										r.a.createElement(T.a, { icon: w.e })
+										{
+											type: 'button',
+											className: 'btn btn-secondary',
+											onClick: function() {
+												e.props.selected.forEach(function(t) {
+													e.props.completeTask(t, !0);
+												}),
+													e.props.getTasks();
+											},
+										},
+										r.a.createElement(D.a, { icon: G.e })
 									);
 								},
 							},
@@ -506,7 +561,7 @@
 						t
 					);
 				})(r.a.Component),
-				R = (function(e) {
+				H = (function(e) {
 					function t() {
 						return (
 							Object(o.a)(this, t),
@@ -522,8 +577,12 @@
 									return r.a.createElement(
 										'div',
 										{ className: 'btn-group pr-2' },
-										r.a.createElement(x, null),
-										r.a.createElement(U, null)
+										r.a.createElement(Y, {
+											completeTask: this.props.completeTask,
+											selected: this.props.selected,
+											getTasks: this.props.getTasks,
+										}),
+										r.a.createElement(z, null)
 									);
 								},
 							},
@@ -531,76 +590,7 @@
 						t
 					);
 				})(r.a.Component),
-				A = (function(e) {
-					function t() {
-						return (
-							Object(o.a)(this, t),
-							Object(i.a)(this, Object(u.a)(t).apply(this, arguments))
-						);
-					}
-					return (
-						Object(p.a)(t, e),
-						Object(l.a)(t, [
-							{
-								key: 'render',
-								value: function() {
-									return r.a.createElement(
-										'div',
-										{ className: 'btn-group pr-2' },
-										r.a.createElement(
-											'div',
-											{ className: 'btn-group' },
-											r.a.createElement(
-												'button',
-												{
-													id: 'btnGroupDrop1',
-													type: 'button',
-													className: 'btn btn-secondary dropdown-toggle',
-													'data-toggle': 'dropdown',
-													'aria-haspopup': 'true',
-													'aria-expanded': 'false',
-												},
-												r.a.createElement(T.a, { icon: w.g })
-											),
-											r.a.createElement(
-												'div',
-												{ className: 'dropdown-menu' },
-												r.a.createElement(
-													'button',
-													{ className: 'dropdown-item', type: 'button' },
-													'\u0412\u0441\u0435'
-												),
-												r.a.createElement(
-													'button',
-													{ className: 'dropdown-item', type: 'button' },
-													'\u041d\u0438 \u043e\u0434\u043d\u043e\u0433\u043e'
-												),
-												r.a.createElement('hr', null),
-												r.a.createElement(
-													'button',
-													{ className: 'dropdown-item', type: 'button' },
-													'\u041d\u0430 \u0441\u0435\u0433\u043e\u0434\u043d\u044f'
-												),
-												r.a.createElement(
-													'button',
-													{ className: 'dropdown-item', type: 'button' },
-													'\u041d\u0430 \u0437\u0430\u0432\u0442\u0440\u0430'
-												),
-												r.a.createElement(
-													'button',
-													{ className: 'dropdown-item', type: 'button' },
-													'\u041f\u0440\u043e\u0441\u0440\u043e\u0447\u0435\u043d\u044b\u0435'
-												)
-											)
-										)
-									);
-								},
-							},
-						]),
-						t
-					);
-				})(r.a.Component),
-				K = (function(e) {
+				W = (function(e) {
 					function t() {
 						return (
 							Object(o.a)(this, t),
@@ -626,7 +616,7 @@
 												'aria-haspopup': 'true',
 												'aria-expanded': 'false',
 											},
-											r.a.createElement(T.a, { icon: w.f })
+											r.a.createElement(D.a, { icon: G.f })
 										),
 										r.a.createElement(
 											'div',
@@ -654,7 +644,7 @@
 						t
 					);
 				})(r.a.Component),
-				I = (function(e) {
+				q = (function(e) {
 					function t() {
 						return (
 							Object(o.a)(this, t),
@@ -680,7 +670,7 @@
 												'aria-haspopup': 'true',
 												'aria-expanded': 'false',
 											},
-											r.a.createElement(T.a, { icon: w.c })
+											r.a.createElement(D.a, { icon: G.c })
 										),
 										r.a.createElement(
 											'div',
@@ -718,7 +708,7 @@
 						t
 					);
 				})(r.a.Component),
-				B = (function(e) {
+				V = (function(e) {
 					function t() {
 						return (
 							Object(o.a)(this, t),
@@ -744,7 +734,7 @@
 												'aria-haspopup': 'true',
 												'aria-expanded': 'false',
 											},
-											r.a.createElement(T.a, { icon: w.h })
+											r.a.createElement(D.a, { icon: G.h })
 										),
 										r.a.createElement(
 											'div',
@@ -767,7 +757,7 @@
 						t
 					);
 				})(r.a.Component),
-				Q = (function(e) {
+				Z = (function(e) {
 					function t() {
 						return (
 							Object(o.a)(this, t),
@@ -783,9 +773,9 @@
 									return r.a.createElement(
 										'div',
 										{ className: 'btn-group pr-2' },
-										r.a.createElement(K, null),
-										r.a.createElement(I, null),
-										r.a.createElement(B, null)
+										r.a.createElement(W, null),
+										r.a.createElement(q, null),
+										r.a.createElement(V, null)
 									);
 								},
 							},
@@ -793,15 +783,14 @@
 						t
 					);
 				})(r.a.Component),
-				z = (function(e) {
+				$ = (function(e) {
 					function t(e) {
 						var a;
 						return (
 							Object(o.a)(this, t),
-							((a = Object(i.a)(
-								this,
-								Object(u.a)(t).call(this, e)
-							)).state = {}),
+							((a = Object(i.a)(this, Object(u.a)(t).call(this, e))).state = {
+								open: !!a.props.open,
+							}),
 							a
 						);
 					}
@@ -813,16 +802,18 @@
 								value: function() {
 									var e;
 									return (
-										(e =
-											this.props.selected.length > 0
-												? r.a.createElement(
-														r.a.Fragment,
-														null,
-														r.a.createElement(A, null),
-														r.a.createElement(R, null),
-														r.a.createElement(Q, null)
-												  )
-												: r.a.createElement(A, null)),
+										(e = this.state.open
+											? r.a.createElement(
+													r.a.Fragment,
+													null,
+													r.a.createElement(H, {
+														completeTask: this.props.completeTask,
+														selected: this.props.selected,
+														getTasks: this.props.getTasks,
+													}),
+													r.a.createElement(Z, null)
+											  )
+											: null),
 										r.a.createElement('div', { className: 'btn-toolbar' }, e)
 									);
 								},
@@ -831,7 +822,64 @@
 						t
 					);
 				})(r.a.Component),
-				J = (function(e) {
+				ee = (function(e) {
+					function t(e) {
+						var a;
+						return (
+							Object(o.a)(this, t),
+							((a = Object(i.a)(this, Object(u.a)(t).call(this, e))).state = {
+								name: '',
+							}),
+							a
+						);
+					}
+					return (
+						Object(p.a)(t, e),
+						Object(l.a)(t, [
+							{
+								key: 'render',
+								value: function() {
+									var e = this;
+									return r.a.createElement(
+										'div',
+										{ className: 'input-group mb-3' },
+										r.a.createElement('input', {
+											id: 'createTaskField',
+											type: 'text',
+											className: 'form-control',
+											onChange: function() {
+												e.setState({
+													name: document.getElementById('createTaskField')
+														.value,
+												});
+											},
+										}),
+										0 === this.state.name.length
+											? null
+											: r.a.createElement(
+													'div',
+													{ className: 'input-group-append' },
+													r.a.createElement(
+														'button',
+														{
+															className: 'btn btn-outline-secondary',
+															type: 'button',
+															onClick: function() {
+																e.props.createTask(e.state.name),
+																	e.props.getTasks();
+															},
+														},
+														r.a.createElement(D.a, { icon: G.g })
+													)
+											  )
+									);
+								},
+							},
+						]),
+						t
+					);
+				})(r.a.Component),
+				te = (function(e) {
 					function t(e) {
 						var a;
 						return (
@@ -846,12 +894,7 @@
 					return (
 						Object(p.a)(t, e),
 						Object(l.a)(t, [
-							{
-								key: 'componentWillReceiveProps',
-								value: function() {
-									this.setState({ selected: this.props.selected });
-								},
-							},
+							{ key: 'componentWillReceiveProps', value: function() {} },
 							{
 								key: 'render',
 								value: function() {
@@ -909,11 +952,26 @@
 											r.a.createElement(
 												'div',
 												{ className: 'card-body' },
-												r.a.createElement(z, { selected: this.props.selected }),
-												r.a.createElement(F, {
-													tasks: a,
-													selectTask: this.props.selectTask,
-												})
+												r.a.createElement(
+													'div',
+													null,
+													0 === this.props.selected.length
+														? null
+														: r.a.createElement($, {
+																open: !0,
+																selected: this.props.selected,
+																getTasks: this.props.getTasks,
+														  })
+												),
+												r.a.createElement(
+													'div',
+													null,
+													r.a.createElement(ee, {
+														createTask: this.props.addTask,
+														getTasks: this.props.getTasks,
+													})
+												),
+												r.a.createElement(X, { tasks: a })
 											)
 										)
 									);
@@ -923,15 +981,52 @@
 						t
 					);
 				})(r.a.Component),
-				M = Object(m.b)(
+				ae = Object(m.b)(
 					function(e) {
-						return { tasks: e.tasks };
+						return { tasks: e.tasks, selected: e.tasks.selected };
 					},
 					function(e) {
-						return {};
+						return {
+							addTask: function(t) {
+								return e(
+									(function(e) {
+										return function(t) {
+											t({ type: O, payload: '' });
+											var a = { name: e },
+												n = {
+													method: 'post',
+													headers: {
+														Accept: 'application/json, text/plain, */*',
+														'Content-Type': 'application/json',
+													},
+													body: JSON.stringify(a),
+												};
+											fetch('api/tasks', n)
+												.then(function(e) {
+													return e;
+												})
+												.then(function(e) {
+													201 === e.status
+														? t({ type: v, payload: e })
+														: t({ type: k, payload: e });
+												})
+												.catch(function(e) {
+													200 === e.status && t({ type: j, payload: e });
+												});
+										};
+									})(t)
+								);
+							},
+							getTasks: function() {
+								return e(S());
+							},
+							selectTask: function(t, a) {
+								return e(C(t));
+							},
+						};
 					}
-				)(J),
-				X = {
+				)(te),
+				ne = {
 					month: 'long',
 					day: 'numeric',
 					year: 'numeric',
@@ -939,7 +1034,7 @@
 					hour: 'numeric',
 					minute: 'numeric',
 				},
-				Y = (function(e) {
+				re = (function(e) {
 					function t(e) {
 						var a;
 						return (
@@ -982,7 +1077,7 @@
 													{ className: 'h5 pr-2' },
 													'\u0414\u0430\u0442\u0430 \u0441\u043e\u0437\u0434\u0430\u043d\u0438\u044f: '
 												),
-												isFinite(t) ? t.toLocaleString('ru', X) : null
+												isFinite(t) ? t.toLocaleString('ru', ne) : null
 											),
 											r.a.createElement(
 												'p',
@@ -999,7 +1094,7 @@
 															return r.a.createElement(
 																'span',
 																{ key: e.id },
-																t.toLocaleString('ru', X)
+																t.toLocaleString('ru', ne)
 															);
 													  })
 											),
@@ -1049,7 +1144,7 @@
 						t
 					);
 				})(r.a.Component),
-				W = (function(e) {
+				se = (function(e) {
 					function t(e) {
 						var a;
 						return (
@@ -1057,7 +1152,7 @@
 							((a = Object(i.a)(this, Object(u.a)(t).call(this, e))).state = {
 								selected: [],
 							}),
-							(a.selectTask = a.selectTask.bind(Object(_.a)(a))),
+							(a.selectTask = a.selectTask.bind(Object(I.a)(a))),
 							a
 						);
 					}
@@ -1097,7 +1192,7 @@
 										(n.tasks.forEach(function(e) {
 											e.id === a.state.selected[0] && (t = e);
 										}),
-										(e = r.a.createElement(Y, { task: t })),
+										(e = r.a.createElement(re, { task: t })),
 										console.log(e));
 									return (
 										this.state.selected.length > 1 &&
@@ -1116,10 +1211,7 @@
 												r.a.createElement(
 													'div',
 													{ className: 'col-lg-7 col-sm-12 p-0' },
-													r.a.createElement(M, {
-														selectTask: this.selectTask,
-														selected: this.state.selected,
-													})
+													r.a.createElement(ae, { selectTask: this.selectTask })
 												),
 												r.a.createElement(
 													'div',
@@ -1135,32 +1227,356 @@
 						t
 					);
 				})(r.a.Component),
-				q = Object(m.b)(
+				ce = Object(m.b)(
 					function(e) {
 						return { tasks: e.tasks };
 					},
 					function(e) {
 						return {
 							getTasks: function() {
-								return e(function(e) {
-									e({ type: v, payload: '' }),
-										fetch('api/tasks')
-											.then(function(e) {
-												return e.json();
-											})
-											.then(function(t) {
-												e({ type: k, payload: t });
-											})
-											.catch(function(t) {
-												e({ type: N, payload: t });
-											});
-								});
+								return e(S());
 							},
 						};
 					}
-				)(W),
-				H = (a(42),
+				)(se),
+				oe = 'GET_PURPOSE_REQUEST',
+				le = 'GET_PURPOSE_SUCCESS',
+				ie = 'CHECK_LOGIN_BAD',
+				ue = 'GET_PURPOSE_EXCEPTION';
+			function pe(e, t) {
+				return function(a) {
+					a({ type: oe, payload: '' });
+					var n = { Login: e, Password: t },
+						r = {
+							method: 'post',
+							headers: {
+								Accept: 'application/json, text/plain, */*',
+								'Content-Type': 'application/json',
+							},
+							body: JSON.stringify(n),
+						};
+					fetch('api/Auth', r)
+						.then(function(e) {
+							return e;
+						})
+						.then(function(e) {
+							200 === e.status
+								? a({ type: le, payload: e })
+								: a({ type: ie, payload: e });
+						})
+						.catch(function(e) {
+							200 === e.status && a({ type: ue, payload: e });
+						});
+				};
+			}
+			var me = a(19),
+				de = (function(e) {
+					function t(e) {
+						var a;
+						return (
+							Object(o.a)(this, t),
+							((a = Object(i.a)(this, Object(u.a)(t).call(this, e))).state = {
+								login: '',
+								password: '',
+							}),
+							a
+						);
+					}
+					return (
+						Object(p.a)(t, e),
+						Object(l.a)(t, [
+							{
+								key: 'render',
+								value: function() {
+									var e = this;
+									return !0 === this.props.auth.isLogged
+										? r.a.createElement(me.a, { to: '/' })
+										: r.a.createElement(
+												r.a.Fragment,
+												null,
+												r.a.createElement(
+													'main',
+													{ className: 'main h-100' },
+													r.a.createElement(
+														'div',
+														{ className: 'container-fluid h-100' },
+														r.a.createElement(
+															'div',
+															{ className: 'row h-100' },
+															r.a.createElement(
+																'section',
+																{
+																	className:
+																		'p-0 d-flex align-items-center justify-content-center w-100',
+																},
+																r.a.createElement(
+																	'form',
+																	{ className: 'card' },
+																	r.a.createElement(
+																		'div',
+																		{ className: 'card-body' },
+																		r.a.createElement(
+																			'div',
+																			{ className: 'form-group row' },
+																			r.a.createElement(
+																				'label',
+																				{
+																					for: 'login',
+																					className: 'col-sm-4 col-form-label',
+																				},
+																				'\u041b\u043e\u0433\u0438\u043d'
+																			),
+																			r.a.createElement(
+																				'div',
+																				{ class: 'col-sm-6' },
+																				r.a.createElement('input', {
+																					id: 'login',
+																					type: 'text',
+																					onChange: function() {
+																						var t = document.getElementById(
+																							'login'
+																						).value;
+																						e.setState({ login: t });
+																					},
+																				})
+																			)
+																		),
+																		r.a.createElement(
+																			'div',
+																			{ class: 'form-group row' },
+																			r.a.createElement(
+																				'label',
+																				{
+																					for: 'password',
+																					className: 'col-sm-4 col-form-label',
+																				},
+																				'\u041f\u0430\u0440\u043e\u043b\u044c'
+																			),
+																			r.a.createElement(
+																				'div',
+																				{ className: 'col-sm-8' },
+																				r.a.createElement('input', {
+																					id: 'password',
+																					type: 'password',
+																					onChange: function() {
+																						var t = document.getElementById(
+																							'password'
+																						).value;
+																						e.setState({ password: t });
+																					},
+																				})
+																			)
+																		),
+																		r.a.createElement(
+																			'div',
+																			{ className: 'form-group row' },
+																			r.a.createElement(
+																				'div',
+																				{
+																					className: 'col-sm-12 col-form-label',
+																				},
+																				r.a.createElement(
+																					L.b,
+																					{ to: '/register' },
+																					'\u041d\u0435\u0442 \u0430\u043a\u043a\u0430\u0443\u043d\u0442\u0430?'
+																				)
+																			)
+																		),
+																		r.a.createElement(
+																			'button',
+																			{
+																				type: 'button',
+																				className:
+																					'btn-block btn btn-outline-dark',
+																				onClick: function() {
+																					e.props.checkAuth(
+																						e.state.login,
+																						e.state.password
+																					);
+																				},
+																			},
+																			'\u0412\u043e\u0439\u0442\u0438'
+																		)
+																	)
+																)
+															)
+														)
+													)
+												)
+										  );
+								},
+							},
+						]),
+						t
+					);
+				})(r.a.Component),
+				be = Object(m.b)(
+					function(e) {
+						return { auth: e.auth };
+					},
+					function(e) {
+						return {
+							checkAuth: function(t, a) {
+								return e(pe(t, a));
+							},
+						};
+					}
+				)(de),
+				Ee = (a(54),
 				(function(e) {
+					function t(e) {
+						var a;
+						return (
+							Object(o.a)(this, t),
+							((a = Object(i.a)(this, Object(u.a)(t).call(this, e))).state = {
+								login: '',
+								password: '',
+								isCreated: !1,
+							}),
+							a
+						);
+					}
+					return (
+						Object(p.a)(t, e),
+						Object(l.a)(t, [
+							{
+								key: 'render',
+								value: function() {
+									var e = this;
+									return !0 === this.state.isCreated
+										? r.a.createElement(me.a, { to: '/auth' })
+										: r.a.createElement(
+												r.a.Fragment,
+												null,
+												r.a.createElement(
+													'main',
+													{ className: 'main h-100' },
+													r.a.createElement(
+														'div',
+														{ className: 'container-fluid h-100' },
+														r.a.createElement(
+															'div',
+															{ className: 'row h-100' },
+															r.a.createElement(
+																'section',
+																{
+																	className:
+																		'p-0 d-flex align-items-center justify-content-center w-100',
+																},
+																r.a.createElement(
+																	'form',
+																	{ className: 'card' },
+																	r.a.createElement(
+																		'div',
+																		{ className: 'card-body' },
+																		r.a.createElement(
+																			'div',
+																			{ class: 'form-group row' },
+																			r.a.createElement(
+																				'label',
+																				{
+																					for: 'login',
+																					className: 'col-sm-4 col-form-label',
+																				},
+																				'\u041b\u043e\u0433\u0438\u043d'
+																			),
+																			r.a.createElement(
+																				'div',
+																				{ class: 'col-sm-6' },
+																				r.a.createElement('input', {
+																					id: 'login',
+																					type: 'text',
+																					onChange: function() {
+																						var t = document.getElementById(
+																							'login'
+																						).value;
+																						e.setState({ login: t });
+																					},
+																				})
+																			)
+																		),
+																		r.a.createElement(
+																			'div',
+																			{ class: 'form-group row' },
+																			r.a.createElement(
+																				'label',
+																				{
+																					for: 'password',
+																					className: 'col-sm-4 col-form-label',
+																				},
+																				'\u041f\u0430\u0440\u043e\u043b\u044c'
+																			),
+																			r.a.createElement(
+																				'div',
+																				{ class: 'col-sm-8' },
+																				r.a.createElement('input', {
+																					id: 'password',
+																					type: 'password',
+																					onChange: function() {
+																						var t = document.getElementById(
+																							'password'
+																						).value;
+																						e.setState({ password: t });
+																					},
+																				})
+																			)
+																		),
+																		r.a.createElement(
+																			'div',
+																			{ className: 'form-group row' },
+																			r.a.createElement(
+																				'div',
+																				{
+																					className: 'col-sm-12 col-form-label',
+																				},
+																				r.a.createElement(
+																					L.b,
+																					{ to: '/auth' },
+																					'\u0423\u0436\u0435 \u0435\u0441\u0442\u044c \u0430\u043a\u043a\u0430\u0443\u043d\u0442?'
+																				)
+																			)
+																		),
+																		r.a.createElement(
+																			'button',
+																			{
+																				type: 'button',
+																				className:
+																					'btn-block btn btn-outline-dark',
+																				onClick: function() {
+																					e.props.checkAuth(
+																						e.state.login,
+																						e.state.password
+																					);
+																				},
+																			},
+																			'\u0417\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u0442\u044c\u0441\u044f'
+																		)
+																	)
+																)
+															)
+														)
+													)
+												)
+										  );
+								},
+							},
+						]),
+						t
+					);
+				})(r.a.Component)),
+				he = Object(m.b)(
+					function(e) {
+						return { auth: e.auth };
+					},
+					function(e) {
+						return {
+							checkAuth: function(t, a) {
+								return e(pe(t, a));
+							},
+						};
+					}
+				)(Ee),
+				fe = (function(e) {
 					function t() {
 						return (
 							Object(o.a)(this, t),
@@ -1173,31 +1589,53 @@
 							{
 								key: 'render',
 								value: function() {
-									return r.a.createElement(
-										r.a.Fragment,
-										null,
-										r.a.createElement(y, null),
-										r.a.createElement(
-											'main',
-											{ className: 'main' },
+									var e = this,
+										t = r.a.createElement(
+											r.a.Fragment,
+											null,
+											r.a.createElement(A, null),
 											r.a.createElement(
-												'div',
-												{ className: 'container-fluid h-100' },
+												'main',
+												{ className: 'main' },
 												r.a.createElement(
 													'div',
-													{ className: 'row h-100' },
+													{ className: 'container-fluid h-100' },
 													r.a.createElement(
-														'aside',
-														{ className: 'col-lg-2 col-sm-4 p-0' },
-														r.a.createElement(C, null)
-													),
-													r.a.createElement(
-														'section',
-														{ className: 'col-lg-10 col-sm-8 p-0' },
-														r.a.createElement(q, null)
+														'div',
+														{ className: 'row h-100' },
+														r.a.createElement(
+															'aside',
+															{ className: 'col-lg-2 col-sm-4 p-0' },
+															r.a.createElement(K, null)
+														),
+														r.a.createElement(
+															'section',
+															{ className: 'col-lg-10 col-sm-8 p-0' },
+															r.a.createElement(ce, null)
+														)
 													)
 												)
 											)
+										);
+									return r.a.createElement(
+										L.a,
+										null,
+										r.a.createElement(
+											me.d,
+											null,
+											r.a.createElement(me.b, { path: '/auth', component: be }),
+											r.a.createElement(me.b, {
+												path: '/register',
+												component: he,
+											}),
+											r.a.createElement(me.b, {
+												path: '/',
+												children: function() {
+													return e.props.auth.isLogged
+														? t
+														: r.a.createElement(me.a, { to: '/auth' });
+												},
+											})
 										)
 									);
 								},
@@ -1205,14 +1643,14 @@
 						]),
 						t
 					);
-				})(r.a.Component)),
-				V = Object(m.b)(function(e) {
-					return { tasks: e.tasks, taskLists: e.taskLists };
-				})(H),
-				Z = a(13),
-				$ = a(9),
-				ee = 'SELECT_TASK';
-			var te = {
+				})(r.a.Component),
+				ge = Object(m.b)(function(e) {
+					return { tasks: e.tasks, taskLists: e.taskLists, auth: e.auth };
+				})(fe),
+				ye = a(20),
+				Oe = a(8),
+				ve = 'SELECT_TASK';
+			var ke = {
 				tasks: [
 					{
 						id: 1,
@@ -1229,12 +1667,12 @@
 				loading: !1,
 				errors: [],
 			};
-			var ae = {
+			var je = {
 				lists: [{ id: 1, name: 'testTaskList', color: 'red' }],
 				isLoading: !1,
 				errors: [],
 			};
-			var ne = {
+			var Ne = {
 				purposes: [
 					{
 						id: 1,
@@ -1246,23 +1684,43 @@
 				isLoading: !1,
 				errors: [],
 			};
-			var re = Object(Z.c)({
+			var Te = { isLogged: !1, isLoading: !1, token: '', errors: [] };
+			var we = Object(ye.c)({
 					tasks: function() {
 						var e =
 								arguments.length > 0 && void 0 !== arguments[0]
 									? arguments[0]
-									: te,
+									: ke,
 							t = arguments.length > 1 ? arguments[1] : void 0;
 						switch (t.type) {
+							case f:
+								return Object(Oe.a)({}, e, { loading: !0 });
+							case g:
+								return Object(Oe.a)({}, e, { loading: !1, tasks: t.payload });
+							case y:
+								return Object(Oe.a)({}, e, { loading: !1, errors: t.payload });
+							case O:
+								return Object(Oe.a)({}, e, { loading: !0 });
 							case v:
-								return Object($.a)({}, e, { loading: !0 });
+								return Object(Oe.a)({}, e, {
+									loading: !1,
+									tasks: e.tasks.concat(t.payload),
+								});
 							case k:
-								return Object($.a)({}, e, { loading: !1, tasks: t.payload });
+								return Object(Oe.a)({}, e, { loading: !1 });
+							case j:
+								return Object(Oe.a)({}, e, { loading: !1, err: t.payload });
 							case N:
-								return Object($.a)({}, e, { loading: !1, errors: t.payload });
-							case ee:
-								return Object($.a)({}, e, {
-									selected: e.selected.push(t.payload),
+								return Object(Oe.a)({}, e, { loading: !0 });
+							case T:
+								return Object(Oe.a)({}, e, { loading: !1, selected: [] });
+							case w:
+								return Object(Oe.a)({}, e, { loading: !1, err: t.payload });
+							case ve:
+								for (var a = !1, n = e.selected, r = 0; r < n.length; r++)
+									n[r] === t.payload && ((a = !0), n.splice(r, 1));
+								return Object(Oe.a)({}, e, {
+									selected: a ? n : n.join(t.payload),
 								});
 							default:
 								return e;
@@ -1272,15 +1730,18 @@
 						var e =
 								arguments.length > 0 && void 0 !== arguments[0]
 									? arguments[0]
-									: ae,
+									: je,
 							t = arguments.length > 1 ? arguments[1] : void 0;
 						switch (t.type) {
 							case d:
-								return Object($.a)({}, e, { isLoading: !0 });
+								return Object(Oe.a)({}, e, { isLoading: !0 });
 							case b:
-								return Object($.a)({}, e, { isLoading: !1, lists: t.payload });
-							case h:
-								return Object($.a)({}, e, { isLoading: !1, errors: t.payload });
+								return Object(Oe.a)({}, e, { isLoading: !1, lists: t.payload });
+							case E:
+								return Object(Oe.a)({}, e, {
+									isLoading: !1,
+									errors: t.payload,
+								});
 							default:
 								return e;
 						}
@@ -1289,31 +1750,60 @@
 						var e =
 								arguments.length > 0 && void 0 !== arguments[0]
 									? arguments[0]
-									: ne,
+									: Ne,
 							t = arguments.length > 1 ? arguments[1] : void 0;
 						switch (t.type) {
-							case O:
-								return Object($.a)({}, e, { isLoading: !0 });
-							case g:
-								return Object($.a)({}, e, { isLoading: !1, lists: t.payload });
-							case j:
-								return Object($.a)({}, e, { isLoading: !1, errors: t.payload });
+							case P:
+								return Object(Oe.a)({}, e, { isLoading: !0 });
+							case R:
+								return Object(Oe.a)({}, e, { isLoading: !1, lists: t.payload });
+							case U:
+								return Object(Oe.a)({}, e, {
+									isLoading: !1,
+									errors: t.payload,
+								});
+							default:
+								return e;
+						}
+					},
+					auth: function() {
+						var e =
+								arguments.length > 0 && void 0 !== arguments[0]
+									? arguments[0]
+									: Te,
+							t = arguments.length > 1 ? arguments[1] : void 0;
+						switch (t.type) {
+							case oe:
+								return Object(Oe.a)({}, e, { isLoading: !0 });
+							case le:
+								return Object(Oe.a)({}, e, {
+									isLoading: !1,
+									isLogged: !0,
+									token: t.payload,
+								});
+							case ie:
+								return Object(Oe.a)({}, e, { isLoading: !1 });
+							case ue:
+								return Object(Oe.a)({}, e, {
+									isLoading: !1,
+									errors: t.payload,
+								});
 							default:
 								return e;
 						}
 					},
 				}),
-				se = a(23),
-				ce = a.n(se),
-				oe = a(24),
-				le = Object(Z.d)(re, Object(Z.a)(ce.a, oe.a));
-			a(43), a(44);
+				Se = a(34),
+				Ce = a.n(Se),
+				Le = a(35),
+				_e = Object(ye.d)(we, Object(ye.a)(Ce.a, Le.a));
+			a(55), a(56);
 			c.a.render(
-				r.a.createElement(m.a, { store: le }, r.a.createElement(V, null)),
+				r.a.createElement(m.a, { store: _e }, r.a.createElement(ge, null)),
 				document.getElementById('root')
 			);
 		},
 	},
-	[[25, 1, 2]],
+	[[36, 1, 2]],
 ]);
-//# sourceMappingURL=main.81815e93.chunk.js.map
+//# sourceMappingURL=main.e7f14494.chunk.js.map
