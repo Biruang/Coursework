@@ -40,16 +40,14 @@ class Main extends React.Component {
 		if (this.state.selected.length === 0) {
 			aside = <p>None</p>;
 		}
-		if (this.state.selected.length === 0) {
+		if (this.state.selected.length === 1) {
 			var task;
 			tasks.tasks.forEach(t => {
 				if (t.id === this.state.selected[0]) {
 					task = t;
 				}
 			});
-			task = this.props.tasks.tasks[3];
 			aside = <Task task={task} />;
-			console.log(aside);
 		}
 		if (this.state.selected.length > 1) {
 			aside = <p>{this.state.selected.length}</p>;
